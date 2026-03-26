@@ -2,8 +2,14 @@
 
 namespace SW.PayRool
 {
-    public class SalarySlipProcessor(IZoneService zoneService)
+    public class SalarySlipProcessor
     {
+        private readonly IZoneService zoneService;
+
+        public SalarySlipProcessor(IZoneService zoneService)
+        {
+            this.zoneService = zoneService;
+        }
         public decimal CalculateBasicSalary(Employee employee)
         {
             if (employee == null)
