@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="SW.Payroll.Tests/SW.Payroll.Tests.csproj" />
   <Project Path="SW.PayRool/SW.PayRool.csproj" />
+  <Project Path="UnitTesting01.Projects/UnitTesting02.Projects.csproj" Id="dd31bbf6-89b7-4579-a628-dc25ac370e2d" />
+  <Project Path="UnitTesting02.ConsoleApp/UnitTesting02.ConsoleApp.csproj" Id="36ff85ff-c725-42f3-9a97-99126272ef9a" />
 </Solution>
