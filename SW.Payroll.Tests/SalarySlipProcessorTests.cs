@@ -1,4 +1,5 @@
-﻿using SW.PayRool;
+﻿using Moq;
+using SW.PayRool;
 
 namespace SW.Payroll.Tests
 {
@@ -40,21 +41,7 @@ namespace SW.Payroll.Tests
             //Assert
             Assert.Throws<ArgumentNullException>(() => func(employee));
         }
-        [Fact]
-        public void CalculateTransportationAllowece_ForEmployeeIsNull_ThrowArgumentNullException()
-        {
-            //AAA 
-
-            // Arrange 
-            Employee employee = null;
-
-            //Act 
-            var salarySlipProcessor = new SalarySlipProcessor(null);
-
-            Func<Employee, decimal> func = (e) => salarySlipProcessor.CalculateTransportationAllowece(employee);
-            //Assert
-            Assert.Throws<ArgumentNullException>(() => func(employee));
-        }
+        
         [Fact]
         public void CalculateTransportationAllowece_ForEmployeeWorkInOffice_ReturnsTransportationAllowece()
         {
@@ -106,9 +93,69 @@ namespace SW.Payroll.Tests
             Assert.Equal(actual, expected);
 
         }
+        [Fact]
+        public void CalculateTransportationAllowece_ForEmployeeIsNull_ThrowArgumentNullException()
+        {
+            //AAA 
 
-      
+            // Arrange 
+            Employee employee = null;
 
+            //Act 
+            var salarySlipProcessor = new SalarySlipProcessor(null);
+
+            Func<Employee, decimal> func = (e) => salarySlipProcessor.CalculateTransportationAllowece(employee);
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => func(employee));
+        }
+
+
+        [Fact]
+        public void CalculateDangerPay_ForEmployeeIsNull_ThrowArgumentNullException()
+        {
+            //AAA 
+
+            // Arrange 
+            Employee employee = null;
+
+            //Act 
+            var salarySlipProcessor = new SalarySlipProcessor(null);
+
+            Func<Employee, decimal> func = (e) => salarySlipProcessor.CalculateTransportationAllowece(employee);
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => func(employee));
+        }
+        [Fact]
+        public void CalculateDangerPay_EmployeeIsDangerOn_Returns()
+        {
+            //AAA 
+
+            // Arrange 
+            var employee = new Employee { IsDanger=true };
+
+            //Act 
+            var salarySlipProcessor = new SalarySlipProcessor(null);
+            var actual = salarySlipProcessor.CalculateDangerPay(employee);
+            var expected = Constants.DangerPayAmount;
+            // Assert
+            Assert.Equal(actual, expected);
+        }
+        [Fact]
+        public void CalculateDangerPay_EmployeeIsDangerOffAndInDangerZone_Returns()
+        {
+            //AAA 
+            
+            // Arrange 
+            var employee = new Employee { IsDanger=false,DutyStation="Ukraine" };
+            var mock = new Mock<IZoneService>();
+            var setup = mock.Setup(z => z.IsDangerZone(employee.DutyStation)).Returns(true);
+            //Act 
+            var salarySlipProcessor = new SalarySlipProcessor(mock.Object);
+            var actual = salarySlipProcessor.CalculateDangerPay(employee);
+            var expected = Constants.DangerPayAmount;
+            // Assert
+            Assert.Equal(actual, expected);
+        }
 
     }
 }
